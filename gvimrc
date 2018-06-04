@@ -128,6 +128,10 @@ Plug 'lervag/vimtex'
 
 Plug 'brennier/quicktex'
 
+Plug 'scrooloose/nerdtree'
+
+Plug 'tpope/vim-surround'
+
 call plug#end()
 
 
@@ -147,18 +151,19 @@ set laststatus=2
 """"" appearance
 
 let g:fsharp_fsi_show_auto_open = 1
-
 set guioptions-=T
 set guioptions-=r
-
-
+set relativenumber
 set background=light
-
 set guifont=Menlo:h12
+set noshowmode
 
+colorscheme vimspectrgrey-light
 
 let g:livepreview_previewer = 'open -a Preview'
 autocmd Filetype tex setl updatetime=100
+
+
 
 """"" appearance for lightline
 
@@ -188,7 +193,7 @@ let g:quicktex_tex = {
     \'m'   : '\( <+++> \) <++>',
 \'Section: Environments' : 'COMMENT',
     \'env' : "\<ESC>Bvedi\\begin{\<ESC>pa}\<CR><+++>\<CR>\\end{\<ESC>pa}<++>",
-    \'exe' : "\\begin{exercise}{<+++>}\<CR><++>\<CR>\\end{exercise}",
+    \'exe' : "\\begin{exercise}{<+++>}\<CR><++>\<CR>\\end{exercise}<++>",
     \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
     \'thm' : "\\begin{theorem}\<CR><+++>\<CR>\\end{theorem}",
     \'lem' : "\\begin{lemma}\<CR><+++>\<CR>\\end{lemma}",

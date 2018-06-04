@@ -47,13 +47,17 @@ Plug 'fsharp/vim-fsharp', {
       \ 'do':  'make fsautocomplete',
       \}
 
-Plug 'nightsense/vimspectr'
+"Plug 'nightsense/vimspectr'
 
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 
 Plug 'lervag/vimtex'
 
 Plug 'brennier/quicktex'
+
+Plug 'scrooloose/nerdtree'
+
+Plug 'tpope/vim-surround'
 
 call plug#end()
 
@@ -74,22 +78,15 @@ set laststatus=2
 
 """"" appearance
 
-set guifont=Menlo:h12
-
+"set guifont=Menlo:h12
 let g:fsharp_fsi_show_auto_open = 1
-
 set relativenumber
-
-set guioptions-=T
-set guioptions-=r
-
+"set guioptions-=T
+"set guioptions-=r
 set noshowmode
+"set background=light
 
-""""" vimspectr0 appearance
-
-colorscheme vimspectrgrey-light
-
-set background=light
+"colorscheme vimspectrgrey-light
 
 let g:livepreview_previewer = 'open -a Preview'
 autocmd Filetype tex setl updatetime=100
@@ -116,16 +113,6 @@ let g:lightline = {
 
 
 
-
-
-
-
-
-
-
-
-
-
 """"" quicktex
 
 let g:quicktex_tex = {
@@ -133,7 +120,7 @@ let g:quicktex_tex = {
     \'m'   : '\( <+++> \) <++>',
 \'Section: Environments' : 'COMMENT',
     \'env' : "\<ESC>Bvedi\\begin{\<ESC>pa}\<CR><+++>\<CR>\\end{\<ESC>pa}<++>",
-    \'exe' : "\\begin{exercise}{<+++>}\<CR><++>\<CR>\\end{exercise}",
+    \'exe' : "\\begin{exercise}{<+++>}\<CR><++>\<CR>\\end{exercise}<++>",
     \'prf' : "\\begin{proof}\<CR><+++>\<CR>\\end{proof}",
     \'thm' : "\\begin{theorem}\<CR><+++>\<CR>\\end{theorem}",
     \'lem' : "\\begin{lemma}\<CR><+++>\<CR>\\end{lemma}",

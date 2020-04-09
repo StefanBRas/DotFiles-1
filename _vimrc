@@ -39,9 +39,11 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'lervag/vimtex'
 Plug 'itchyny/lightline.vim'
+Plug 'patstockwell/vim-monokai-tasty'
 Plug 'ivalkeen/nerdtree-execute'
 Plug 'jeetsukumaran/vim-buffergator'
 Plug 'junegunn/goyo.vim'
+Plug 'itchyny/screensaver.vim'
 "Plug 'fsharp/vim-fsharp', {
 "      \ 'for': 'fsharp',
 "      \ 'do':  'make fsautocomplete',
@@ -51,6 +53,7 @@ Plug 'iCyMind/NeoSolarized'
 Plug 'srcery-colors/srcery-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'rakr/vim-one'
+Plug 'jalvesaq/Nvim-R'
 "Plug 'nightsense/snow'
 "Plug 'ErichDonGubler/vim-sublime-monokai'
 Plug 'arcticicestudio/nord-vim'
@@ -65,7 +68,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'phanviet/vim-monokai-pro'
 Plug 'nanotech/jellybeans.vim', {'tag': 'v1.6'}
 "Plug 'tpope/vim-surround'
-
+Plug 'neovimhaskell/haskell-vim'
 call plug#end()
 
 let g:vimtex_view_general_viewer = 'SumatraPDF'
@@ -91,19 +94,30 @@ set backupdir=~/.vim/backups
 
 " VIM TEMPLATES
 "let g:templates_empty_files = 1
+"
 """"" GOYO SETs
-let g:goyo_width = 110
-let g:goyo_height = 100
+"let g:goyo_width = 110
+"let g:goyo_height = 100
+
+
 """" sets for lightline theme
 ":map <F2> :w |!fsi %
 set laststatus=2
 "set lines=50
 "set columns=1000
-set textwidth=100
+
+"Old setting
+"set textwidth=100
+set textwidth=80
 ""set wrapmargin=80
 set wrap 
 "set linebreak
 "set nolist
+
+"""" Haskell"
+syntax on
+filetype plugin indent on
+
 
 """"" SET FOR NERDTREE
 map <C-n> :NERDTreeToggle<CR>
@@ -113,7 +127,7 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 
 """"" appearance
 
-set guifont=Consolas:h11
+set guifont=Cascadia_code:h10
 "set guifont=Menlo:h12"
 "set guifont=Lucida_Console:h9:cDEFAULT
 "set guifont=Arial:h11
@@ -138,8 +152,10 @@ set fileencoding=utf-8
 "colorscheme nord
 "colorscheme NeoSolarized
 "colorscheme gruvbox
-colorscheme monokai_pro
-set background=dark
+"colorscheme monokai_pro
+colorscheme vim-monokai-tasty
+set background=light
+set background&
 """""""""""""" NEW """""""""""
 "set termguicolors
 "colorscheme monokai_pro 
@@ -151,7 +167,7 @@ set background=dark
 """"" appearance for lightline
 
 let g:lightline = {
-      \ 'colorscheme': 'one',
+      \ 'colorscheme': 'monokai_tasty',
       \ 'active': {
       \   'left': [['mode', 'paste'], ['absolutepath', 'modified']],
       \   'right': [['lineinfo'], ['percent'], ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok']]
@@ -259,7 +275,11 @@ let g:quicktex_math = {
 \'Section: Set Theory' : 'COMMENT',
     \'bn'    : '\mathbb{N} ',
     \'bz'    : '\mathbb{Z} ',
+    \'be'    : '\mathbb{E} ',
+    \'bd'    : '\mathbb{D} ',
+    \'bk'    : '\mathbb{K} ',
     \'bq'    : '\mathbb{Q} ',
+    \'bp'    : '\mathbb{P} ',
     \'br'    : '\mathbb{R} ',
     \'bc'    : '\mathbb{C} ',
     \'ba'    : '\mathbb{A} ',
@@ -276,6 +296,10 @@ let g:quicktex_math = {
     \'set'   : '\{<+++>\} <++>',
     \'empty' : '\varnothing ',
     \'pair'  : '(<+++>, <++>) <++>',
+    \'trian' : '\vartriangle',
+    \'boris' : '\mathcal{B} (\mathbb{R})',
+    \'sr'    : '\mathscr{<+++>} <++>',
+    \'indic' : '\mathbbm{1}_{<+++>} <++>',
     \'dots'  : '\dots ',
     \
 \'Section: Logic' : 'COMMENT',
@@ -337,12 +361,12 @@ let g:quicktex_math = {
     \'mapsto' : '\mapsto ',
     \'comp'   : '\circ ',
     \'of'     : "\<BS>(<+++>) <++>",
-    \'sin'    : '\sin{<+++>} <++>',
-    \'cos'    : '\cos{<+++>} <++>',
-    \'tan'    : '\tan{<+++>} <++>',
+    \'sin'    : '\sin ',
+    \'cos'    : '\cos ',
+    \'tan'    : '\tan ',
     \'gcd'    : '\gcd(<+++> ,<++>) <++>',
-    \'ln'     : '\ln{<+++>} <++>',
-    \'log'    : '\log{<+++>} <++>',
+    \'ln'     : '\ln ',
+    \'log'    : '\log ',
     \'df'     : '<+++> : <++> \to <++>',
     \'sqrt'   : '\sqrt{<+++>} <++>',
     \'case'   : '\begin{cases} <+++> \end{cases} <++>',
@@ -359,6 +383,7 @@ let g:quicktex_math = {
 \'Section: Fancy Variables' : 'COMMENT',
     \'fA' : '\mathcal{A} ',
     \'fo' : '\mathcal{O} ',
+    \'fg' : '\mathcal{G} ',
     \'fn' : '\mathcal{N} ',
     \'fp' : '\mathcal{P} ',
     \'ft' : '\mathcal{T} ',
@@ -369,7 +394,9 @@ let g:quicktex_math = {
     \'fi' : '\mathcal{I} ',
     \'fb' : '\mathcal{B} ',
     \'fl' : '\mathcal{L} ',
+    \'fj' : '\mathcal{J} ',
     \'fv' : '\mathcal{V} ',
+    \'fh' : '\mathcal{H} ',
     \
 \'Section: Encapsulating keywords' : 'COMMENT',
     \'bar'  : "\<ESC>F a\\overline{\<ESC>f i} ",
@@ -382,6 +409,8 @@ let g:quicktex_math = {
     \'GL'     : '\text{GL} ',
     \'SL'     : '\text{SL} ',
     \'com'    : "\<BS>^c ",
+    \'perp'   : "\<BS>^{\\perp} ",
+    \'ipr'    : "\\langle <+++>, <++> \\rangle <++>",
     \'matrix' : "\\begin{pmatrix}\<CR><+++>\<CR>\\end{pmatrix}\<CR><++>",
     \'vdots'  : '\vdots & ',
     \'ddots'  : '\ddots & ',

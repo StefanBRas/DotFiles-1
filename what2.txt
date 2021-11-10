@@ -1,4 +1,4 @@
-source $VIMRUNTIME/vimrc_example.vim
+"source $VIMRUNTIME/vimrc_example.vim
 
 set diffexpr=MyDiff()
 function MyDiff()
@@ -36,7 +36,8 @@ endfunction
 
 "DENNE FIL ER RIGTIG
 call plug#begin('~/.vim/plugged')
-
+"Nyt plugin
+Plug 'JuliaEditorSupport/julia-vim'
 Plug 'lervag/vimtex'
 Plug 'itchyny/lightline.vim'
 Plug 'patstockwell/vim-monokai-tasty'
@@ -53,6 +54,7 @@ Plug 'iCyMind/NeoSolarized'
 Plug 'srcery-colors/srcery-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'rakr/vim-one'
+Plug 'fcpg/vim-fahrenheit'
 Plug 'jalvesaq/Nvim-R'
 "Plug 'nightsense/snow'
 "Plug 'ErichDonGubler/vim-sublime-monokai'
@@ -78,14 +80,19 @@ let g:vimtex_view_general_options_latexmk = '-reuse-instance'
 "let g:vimtex_view_enabled=0
 
 """"" sets for tabs and spaces
-set tabstop=4
-set shiftwidth=4
+""" CHANGED FROM 2 to 4
+set tabstop=2
+set shiftwidth=2
 set expandtab
-set softtabstop=4
+set softtabstop=2
 set number
 
 set timeoutlen=1000
 set ttimeoutlen=0
+
+"""" GIT COMMIT
+autocmd FileType gitcommit set textwidth=72
+autocmd FileType gitcommit set colorcolumn=73
 
 "settings for undofiles and backups, watch out for backupdir
 "Can really mess things up.
@@ -98,7 +105,7 @@ set backupdir=~/.vim/backups
 """"" GOYO SETs
 "let g:goyo_width = 110
 "let g:goyo_height = 100
-
+autocmd! User GoyoLeave silent! source $MYVIMRC
 
 """" sets for lightline theme
 ":map <F2> :w |!fsi %
@@ -118,6 +125,9 @@ set wrap
 syntax on
 filetype plugin indent on
 
+"""" SETS FOR R in NVIM
+map <SPACE> <leader>
+let R_assign = 2
 
 """"" SET FOR NERDTREE
 map <C-n> :NERDTreeToggle<CR>
@@ -127,7 +137,7 @@ map <C-n> :NERDTreeToggle<CR>
 
 """"" appearance
 
-set guifont=Cascadia_code:h10
+set guifont=Cascadia_Code:h10
 "set guifont=Menlo:h12"
 "set guifont=Lucida_Console:h9:cDEFAULT
 "set guifont=Arial:h11
@@ -153,9 +163,11 @@ set fileencoding=utf-8
 "colorscheme NeoSolarized
 "colorscheme gruvbox
 "colorscheme monokai_pro
-colorscheme vim-monokai-tasty
-set background=light
-set background&
+"colorscheme vim-monokai-tasty
+colorscheme fahrenheit
+"set background=light
+"set background&
+
 """""""""""""" NEW """""""""""
 "set termguicolors
 "colorscheme monokai_pro 
@@ -165,9 +177,10 @@ set background&
 "autocmd Filetype tex setl updatetime=100
 
 """"" appearance for lightline
-
+"monokai_tasty
+"16color
 let g:lightline = {
-      \ 'colorscheme': 'monokai_tasty',
+      \ 'colorscheme': 'fahrenheit',
       \ 'active': {
       \   'left': [['mode', 'paste'], ['absolutepath', 'modified']],
       \   'right': [['lineinfo'], ['percent'], ['readonly', 'linter_warnings', 'linter_errors', 'linter_ok']]
@@ -200,6 +213,7 @@ let g:quicktex_tex = {
     \'lst' : "\\begin{enumerate}[a)]\<CR>\\item <+++>\<CR>\\end{enumerate}",
     \'cd'  : "\\[\<CR><+++>\<CR>\\]\<CR><++>",
     \'eq'  : "\\begin{align*}\<CR><+++>\<CR>\\end{align*}\<CR><++>",
+    \'blk'  : "\\begin{block}{<+++>}\<CR><++>\<CR>\\end{block}\<CR><++>",
     \'bol' : "\\textbf{<+++>} <++>",
     \'ita' : "\\textit{<+++>} <++>",
     \'footn' : "\\footnote{<+++>} <++>",
@@ -243,7 +257,8 @@ let g:quicktex_math = {
     \'tau'     : '\tau ',
     \'upsilon' : '\upsilon ',
     \'gu'      : '\upsilon ',
-    \'phi'     : '\varphi ',
+    \'phi'     : '\phi ',
+    \'phis'     : '\varphi ',
     \'chi'     : '\chi ',
     \'psi'     : '\psi ',
     \
@@ -285,6 +300,7 @@ let g:quicktex_math = {
     \'ba'    : '\mathbb{A} ',
     \'bf'    : '\mathbb{F} ',
     \'bff'   : '\mathfrak{u} ',
+    \'cl'    : '\mathfrak{C} ',
     \'subs'  : '\subset ',
     \'in'    : '\in ',
     \'nin'   : '\not\in ',
@@ -330,9 +346,11 @@ let g:quicktex_math = {
     \'frac'  : '\frac{<+++>}{<++>} <++>',
     \'recip' : '\frac{1}{<+++>} <++>',
     \'fracs' : '\frac1<+++>',
-    \'vecs' : '(<+++>, <++>, <++>) <++>',
-    \'mats' : '\begin{pmatrix} <+++> & <++> // <++> & <++> \end{pmatrix} <++>',
+    \'vecs'  : '(<+++>, <++>, <++>) <++>',
+    \'mats'  : '\begin{pmatrix} <+++> & <++> // <++> & <++> \end{pmatrix} <++>',
     \'dot'   : '\cdot ',
+    \'vert'  : ' \ \vert \ ',
+    \'propto': '\propto ',
     \'mult'  : '* ',
     \'partial':' \partial',
     \'exp'   : "\<BS>^{<+++>} <++>",
@@ -360,6 +378,7 @@ let g:quicktex_math = {
     \
 \'Section: Functions' : 'COMMENT',
     \'to'     : '\to ',
+    \'wedge'  : '\wedge ',
     \'mapsto' : '\mapsto ',
     \'comp'   : '\circ ',
     \'of'     : "\<BS>(<+++>) <++>",
@@ -403,6 +422,7 @@ let g:quicktex_math = {
 \'Section: Encapsulating keywords' : 'COMMENT',
     \'bar'  : "\<ESC>F a\\overline{\<ESC>f i} ",
     \'tild' : "\<ESC>F a\\tilde{\<ESC>f i} ",
+    \'bold' : "\<ESC>F a\\bold{\<ESC>f i} ",
     \'hat'  : "\<ESC>F a\\hat{\<ESC>f i} ",
     \'star' : "\<BS>^* ",
     \'vec'  : "\<ESC>F a\\vec{\<ESC>f i} ",
